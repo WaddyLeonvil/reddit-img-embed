@@ -26,8 +26,9 @@ export default defineManifest({
   },
   content_scripts: [
     {
-      matches: ['http://*/*', 'https://*/*'],
+      matches: ['http://reddit.com/*', 'https://reddit.com/*'],
       js: ['src/contentScript/index.js'],
+      run_at: 'document_idle',
     },
   ],
   side_panel: {
@@ -39,8 +40,6 @@ export default defineManifest({
       matches: [],
     },
   ],
-  permissions: ['sidePanel', 'storage'],
-  chrome_url_overrides: {
-    newtab: 'newtab.html',
-  },
+  permissions: ['sidePanel', 'storage', 'activeTab', 'scripting'],
+  host_permissions: ['http://*/*', 'https://*/*'],
 })

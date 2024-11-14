@@ -1,7 +1,12 @@
-console.log('background is running')
-
-chrome.runtime.onMessage.addListener((request) => {
-  if (request.type === 'COUNT') {
-    console.log('background has received a message from popup, and count is ', request?.count)
+chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+  if (
+    changeInfo.status === 'complete' &&
+    tab.url?.includes('reddit.com') &&
+    tab.url?.includes('comments')
+  ) {
+    chrome.scripting.executeScript({
+      target: { tabId: tabId },
+      files: ['src/contentScript/index.js.js'],
+    })
   }
 })
