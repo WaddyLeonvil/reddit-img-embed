@@ -1,7 +1,3 @@
-import { writable, readable } from 'svelte/store'
-
-export const active = writable(false)
-
 const post = document.querySelector('#siteTable .entry form .usertext-body')
 const postLinks = post?.querySelectorAll('a')
 

@@ -1,15 +1,33 @@
 <script>
   import PowerButton from '../components/PowerButton.svelte'
-  import { active } from '../contentScript/index.js'
+  import { onMount } from 'svelte'
 
-  let on = $active
+  let on = true
+
+  onMount(() => {
+    chrome.storage.local.get('on', (result) => {
+      if (result.on !== undefined) {
+        on = result.on
+      }
+    })
+  })
 </script>
 
 <main>
   <div class="title">Reddit Image Embedder</div>
   <div class="content">
     <section>
-      <button class="power" href="#button" id="button" class:on on:click={() => (on = !on)}>
+      <button
+        class="power"
+        href="#button"
+        id="button"
+        class:on
+        on:click={() => {
+          on = !on
+          chrome.storage.local.set({ on })
+          chrome.runtime.sendMessage({ action: on ? 'turn_on' : 'turn_off' })
+        }}
+      >
         <PowerButton bind:on />
       </button>
       <span />
